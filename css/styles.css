@@ -371,11 +371,11 @@ body {
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
-    transparent 2.55rem,
-    var(--rule) 2.55rem,
-    var(--rule) calc(2.55rem + 1px)
+    transparent 3.45rem,
+    var(--rule) 3.45rem,
+    var(--rule) calc(3.45rem + 1px)
   );
-  background-position: 0 0.35rem;
+  background-position: 0 0.2rem;
 }
 
 .item-list {
@@ -387,10 +387,10 @@ body {
 .item {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 8px 12px;
+  gap: 6px 12px;
   align-items: start;
-  min-height: calc(2.55rem + 1px);
-  padding: 0.45rem 6px 0.55rem 8px;
+  min-height: calc(3.45rem + 1px);
+  padding: 0.35rem 6px 0.85rem 8px;
   border: 0;
 }
 
