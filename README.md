@@ -8,6 +8,7 @@ No accounts, no frameworks, and no npm.
 
 - Add a task with a type tag (Errand, Home, or Other) and a when tag (Today or Later)
 - Mark a task complete (or uncheck it to reopen it)
+- Click a task’s text to edit it
 - Remove a task
 - Filter by type and by Today / Later
 - Clear finished items

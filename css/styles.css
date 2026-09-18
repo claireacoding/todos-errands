@@ -340,15 +340,51 @@ body {
 }
 
 .item-text {
+  display: block;
+  width: 100%;
   margin: 0;
-  overflow-wrap: anywhere;
+  padding: 2px 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
   font-size: 1.02rem;
   font-weight: 500;
+  text-align: left;
+  cursor: text;
+  overflow-wrap: anywhere;
+}
+
+.item-text:hover {
+  color: var(--accent-dark);
+}
+
+.item-text:focus-visible {
+  outline: 3px solid var(--accent-soft);
+  outline-offset: 2px;
 }
 
 .item.is-done .item-text {
   color: var(--done);
   text-decoration: line-through;
+}
+
+.item-edit {
+  width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: #fafbfa;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 500;
+}
+
+.item-edit:focus {
+  outline: 3px solid var(--accent-soft);
 }
 
 .tag {

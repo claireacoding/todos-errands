@@ -45,10 +45,18 @@
 
   listEl.addEventListener("click", function (event) {
     var removeButton = event.target.closest("[data-action='delete']");
-    if (!removeButton) return;
-    var row = event.target.closest("[data-id]");
-    if (!row) return;
-    deleteItem(row.getAttribute("data-id"));
+    if (removeButton) {
+      var removeRow = event.target.closest("[data-id]");
+      if (!removeRow) return;
+      deleteItem(removeRow.getAttribute("data-id"));
+      return;
+    }
+
+    var editButton = event.target.closest("[data-action='edit']");
+    if (!editButton) return;
+    var editRow = event.target.closest("[data-id]");
+    if (!editRow) return;
+    startEdit(editRow);
   });
 
   typeFilterButtons.forEach(function (button) {
@@ -139,6 +147,75 @@
     render();
   }
 
+  function startEdit(row) {
+    var id = row.getAttribute("data-id");
+    var item = findItem(id);
+    if (!item) return;
+    if (row.querySelector(".item-edit")) return;
+
+    var textButton = row.querySelector("[data-action='edit']");
+    if (!textButton) return;
+
+    var original = item.text;
+    var input = document.createElement("input");
+    input.type = "text";
+    input.className = "item-edit";
+    input.value = original;
+    input.maxLength = 140;
+    input.setAttribute("aria-label", "Edit task");
+
+    textButton.replaceWith(input);
+    input.focus();
+    input.select();
+
+    var finished = false;
+
+    function finish(shouldSave) {
+      if (finished) return;
+      finished = true;
+
+      var next = input.value.trim();
+      if (shouldSave && next && next !== original) {
+        item.text = next;
+        persist();
+        announce("Updated to: " + next);
+      } else if (!shouldSave) {
+        announce("Edit cancelled.");
+      }
+
+      var button = makeTextButton(item);
+      if (input.parentNode) input.replaceWith(button);
+      var checkbox = row.querySelector(".toggle");
+      var remove = row.querySelector("[data-action='delete']");
+      if (checkbox) checkbox.setAttribute("aria-label", "Mark as done: " + item.text);
+      if (remove) remove.setAttribute("aria-label", "Remove " + item.text);
+    }
+
+    input.addEventListener("keydown", function (event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        finish(true);
+      } else if (event.key === "Escape") {
+        event.preventDefault();
+        finish(false);
+      }
+    });
+
+    input.addEventListener("blur", function () {
+      finish(true);
+    });
+  }
+
+  function makeTextButton(item) {
+    var textButton = document.createElement("button");
+    textButton.type = "button";
+    textButton.className = "item-text";
+    textButton.setAttribute("data-action", "edit");
+    textButton.setAttribute("aria-label", "Edit " + item.text);
+    textButton.textContent = item.text;
+    return textButton;
+  }
+
   function findItem(id) {
     for (var i = 0; i < items.length; i += 1) {
       if (items[i].id === id) return items[i];
@@ -215,10 +292,6 @@
     var body = document.createElement("div");
     body.className = "item-body";
 
-    var text = document.createElement("p");
-    text.className = "item-text";
-    text.textContent = item.text;
-
     var tags = document.createElement("div");
     tags.className = "item-tags";
 
@@ -233,7 +306,7 @@
     tags.appendChild(typeTag);
     tags.appendChild(whenTag);
 
-    body.appendChild(text);
+    body.appendChild(makeTextButton(item));
     body.appendChild(tags);
 
     var removeButton = document.createElement("button");
