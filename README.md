@@ -28,7 +28,7 @@ That is all. There is nothing to install.
 ## Files
 
 - `index.html` — the page structure
-- `css/styles.css` — layout, colors, and mobile spacing
+- `css/styles.css` — modern layout: light gray page, white cards, DM Sans, green accent on the add button and active filters
 - `js/app.js` — add, complete, delete, filters, and saving
 
 ## Notes
