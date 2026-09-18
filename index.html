@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/styles.css" />
@@ -30,7 +30,7 @@
       </header>
 
       <main>
-        <section class="panel" aria-labelledby="add-heading">
+        <section class="panel sticky-note" aria-labelledby="add-heading">
           <h2 id="add-heading" class="visually-hidden">Add something</h2>
 
           <div id="storage-banner" class="banner" hidden role="status">
@@ -86,7 +86,7 @@
           </form>
         </section>
 
-        <section class="list-section" aria-labelledby="list-heading">
+        <section class="list-section notebook" aria-labelledby="list-heading">
           <div class="list-header">
             <h2 id="list-heading">Your list</h2>
             <p id="counts" class="counts">Nothing saved yet</p>
@@ -127,11 +127,13 @@
 
           <p id="live-status" class="visually-hidden" aria-live="polite"></p>
 
-          <ul id="item-list" class="item-list"></ul>
+          <div class="ruled-page">
+            <ul id="item-list" class="item-list"></ul>
 
-          <div id="empty-state" class="empty-state">
-            <p id="empty-title" class="empty-title">The list is empty</p>
-            <p id="empty-copy">Add an errand, a home chore, or anything else you need to remember.</p>
+            <div id="empty-state" class="empty-state">
+              <p id="empty-title" class="empty-title">The list is empty</p>
+              <p id="empty-copy">Add an errand, a home chore, or anything else you need to remember.</p>
+            </div>
           </div>
 
           <div class="list-actions">
