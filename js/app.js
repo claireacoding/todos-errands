@@ -91,7 +91,7 @@
   function addItem() {
     var text = textInput.value.trim();
     if (!text) {
-      showFormError("Type what you need to do first.");
+      showFormError("What's next on the list? Start here first.");
       textInput.focus();
       return;
     }
