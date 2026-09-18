@@ -68,6 +68,20 @@
               </div>
             </fieldset>
 
+            <fieldset class="type-fieldset when-fieldset">
+              <legend>When</legend>
+              <div class="type-choices" role="radiogroup" aria-label="When it is due">
+                <label class="type-choice">
+                  <input type="radio" name="when" value="today" checked />
+                  <span>Today</span>
+                </label>
+                <label class="type-choice">
+                  <input type="radio" name="when" value="later" />
+                  <span>Later</span>
+                </label>
+              </div>
+            </fieldset>
+
             <button type="submit" class="add-button">Add to list</button>
           </form>
         </section>
@@ -78,19 +92,37 @@
             <p id="counts" class="counts">Nothing saved yet</p>
           </div>
 
-          <div class="filters" role="group" aria-label="Filter the list">
-            <button type="button" class="filter-chip is-active" data-filter="all" aria-pressed="true">
-              All
-            </button>
-            <button type="button" class="filter-chip" data-filter="errand" aria-pressed="false">
-              Errands
-            </button>
-            <button type="button" class="filter-chip" data-filter="home" aria-pressed="false">
-              Home
-            </button>
-            <button type="button" class="filter-chip" data-filter="other" aria-pressed="false">
-              Other
-            </button>
+          <div class="filter-block">
+            <p class="filter-label" id="type-filter-label">Type</p>
+            <div class="filters" role="group" aria-labelledby="type-filter-label">
+              <button type="button" class="filter-chip is-active" data-type-filter="all" aria-pressed="true">
+                All
+              </button>
+              <button type="button" class="filter-chip" data-type-filter="errand" aria-pressed="false">
+                Errands
+              </button>
+              <button type="button" class="filter-chip" data-type-filter="home" aria-pressed="false">
+                Home
+              </button>
+              <button type="button" class="filter-chip" data-type-filter="other" aria-pressed="false">
+                Other
+              </button>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <p class="filter-label" id="when-filter-label">When</p>
+            <div class="filters" role="group" aria-labelledby="when-filter-label">
+              <button type="button" class="filter-chip is-active" data-when-filter="all" aria-pressed="true">
+                Any time
+              </button>
+              <button type="button" class="filter-chip" data-when-filter="today" aria-pressed="false">
+                Today
+              </button>
+              <button type="button" class="filter-chip" data-when-filter="later" aria-pressed="false">
+                Later
+              </button>
+            </div>
           </div>
 
           <p id="live-status" class="visually-hidden" aria-live="polite"></p>

@@ -6,10 +6,10 @@ No accounts, no frameworks, and no npm.
 
 ## What you can do
 
-- Add a task with a type tag
+- Add a task with a type tag (Errand, Home, or Other) and a when tag (Today or Later)
 - Mark a task complete (or uncheck it to reopen it)
 - Remove a task
-- Filter the list by All, Errands, Home, or Other
+- Filter by type and by Today / Later
 - Clear finished items
 - Keep the list on this device after you close the tab
 
@@ -33,6 +33,7 @@ That is all. There is nothing to install.
 
 ## Notes
 
+- Each item can be tagged **Today** or **Later**. Older items without a when tag are treated as Later.
 - The list never leaves this browser. Clearing site data will clear it.
 - Long notes wrap so the page still works on a phone.
 - If JavaScript is turned off, the page explains that the list cannot run.

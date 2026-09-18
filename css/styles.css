@@ -13,6 +13,10 @@
   --home-soft: #dcebdd;
   --other: #355f78;
   --other-soft: #d9e6ee;
+  --today: #8a5a12;
+  --today-soft: #f7e7c8;
+  --later: #5c574e;
+  --later-soft: #ece8e1;
   --done: #6f7b73;
   --shadow: 0 16px 36px rgba(48, 32, 12, 0.1);
   --radius: 20px;
@@ -114,7 +118,8 @@ body {
 }
 
 .field-label,
-.type-fieldset legend {
+.type-fieldset legend,
+.filter-label {
   display: block;
   margin-bottom: 8px;
   font-size: 0.92rem;
@@ -198,6 +203,22 @@ body {
   color: var(--other);
 }
 
+.when-fieldset .type-choices {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.type-choice input[value="today"]:checked + span {
+  border-color: var(--today);
+  background: var(--today-soft);
+  color: var(--today);
+}
+
+.type-choice input[value="later"]:checked + span {
+  border-color: var(--later);
+  background: var(--later-soft);
+  color: var(--later);
+}
+
 .add-button,
 .filter-chip,
 .text-button,
@@ -253,11 +274,22 @@ body {
   font-size: 0.9rem;
 }
 
+.filter-block {
+  margin: 14px 0 0;
+}
+
+.filter-label {
+  margin: 0 0 8px 4px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 .filters {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin: 16px 0 8px;
 }
 
 .filter-chip {
@@ -346,6 +378,27 @@ body {
 .tag-other {
   background: var(--other-soft);
   color: var(--other);
+}
+
+.item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.item-tags .tag {
+  margin-top: 0;
+}
+
+.tag-today {
+  background: var(--today-soft);
+  color: var(--today);
+}
+
+.tag-later {
+  background: var(--later-soft);
+  color: var(--later);
 }
 
 .icon-button {

@@ -7,6 +7,10 @@
     home: "Home",
     other: "Other",
   };
+  var WHEN_LABELS = {
+    today: "Today",
+    later: "Later",
+  };
 
   var form = document.getElementById("add-form");
   var textInput = document.getElementById("item-text");
@@ -19,10 +23,12 @@
   var countsEl = document.getElementById("counts");
   var liveStatus = document.getElementById("live-status");
   var clearDoneButton = document.getElementById("clear-done");
-  var filterButtons = document.querySelectorAll("[data-filter]");
+  var typeFilterButtons = document.querySelectorAll("[data-type-filter]");
+  var whenFilterButtons = document.querySelectorAll("[data-when-filter]");
 
   var items = loadItems();
-  var activeFilter = "all";
+  var typeFilter = "all";
+  var whenFilter = "all";
 
   form.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -45,10 +51,22 @@
     deleteItem(row.getAttribute("data-id"));
   });
 
-  filterButtons.forEach(function (button) {
+  typeFilterButtons.forEach(function (button) {
     button.addEventListener("click", function () {
-      activeFilter = button.getAttribute("data-filter");
-      filterButtons.forEach(function (chip) {
+      typeFilter = button.getAttribute("data-type-filter");
+      typeFilterButtons.forEach(function (chip) {
+        var isActive = chip === button;
+        chip.classList.toggle("is-active", isActive);
+        chip.setAttribute("aria-pressed", isActive ? "true" : "false");
+      });
+      render();
+    });
+  });
+
+  whenFilterButtons.forEach(function (button) {
+    button.addEventListener("click", function () {
+      whenFilter = button.getAttribute("data-when-filter");
+      whenFilterButtons.forEach(function (chip) {
         var isActive = chip === button;
         chip.classList.toggle("is-active", isActive);
         chip.setAttribute("aria-pressed", isActive ? "true" : "false");
@@ -82,11 +100,14 @@
 
     var typeInput = form.querySelector("input[name='type']:checked");
     var type = typeInput && TYPE_LABELS[typeInput.value] ? typeInput.value : "other";
+    var whenInput = form.querySelector("input[name='when']:checked");
+    var when = whenInput && WHEN_LABELS[whenInput.value] ? whenInput.value : "today";
 
     items.unshift({
       id: createId(),
       text: text,
       type: type,
+      when: when,
       done: false,
       createdAt: Date.now(),
     });
@@ -94,7 +115,7 @@
     persist();
     textInput.value = "";
     textInput.focus();
-    announce("Added " + TYPE_LABELS[type].toLowerCase() + ": " + text);
+    announce("Added " + TYPE_LABELS[type].toLowerCase() + " for " + WHEN_LABELS[when].toLowerCase() + ": " + text);
     render();
   }
 
@@ -126,16 +147,18 @@
   }
 
   function visibleItems() {
-    if (activeFilter === "all") return items.slice();
     return items.filter(function (item) {
-      return item.type === activeFilter;
+      var typeOk = typeFilter === "all" || item.type === typeFilter;
+      var whenOk = whenFilter === "all" || item.when === whenFilter;
+      return typeOk && whenOk;
     });
   }
 
   function render() {
     var visible = visibleItems().sort(function (a, b) {
-      if (a.done === b.done) return b.createdAt - a.createdAt;
-      return a.done ? 1 : -1;
+      if (a.done !== b.done) return a.done ? 1 : -1;
+      if (a.when !== b.when) return a.when === "today" ? -1 : 1;
+      return b.createdAt - a.createdAt;
     });
 
     listEl.innerHTML = "";
@@ -164,12 +187,12 @@
 
     if (visible.length === 0) {
       emptyState.hidden = false;
-      emptyTitle.textContent = "Nothing in " + filterNoun(activeFilter);
+      emptyTitle.textContent = "Nothing in " + filterNoun();
       emptyCopy.textContent = "Add one above, or choose another filter.";
       return;
     }
 
-    if (openCount === 0 && activeFilter === "all") {
+    if (openCount === 0 && typeFilter === "all" && whenFilter === "all") {
       emptyState.hidden = true;
       return;
     }
@@ -196,12 +219,22 @@
     text.className = "item-text";
     text.textContent = item.text;
 
-    var tag = document.createElement("span");
-    tag.className = "tag tag-" + item.type;
-    tag.textContent = TYPE_LABELS[item.type] || "Other";
+    var tags = document.createElement("div");
+    tags.className = "item-tags";
+
+    var typeTag = document.createElement("span");
+    typeTag.className = "tag tag-" + item.type;
+    typeTag.textContent = TYPE_LABELS[item.type] || "Other";
+
+    var whenTag = document.createElement("span");
+    whenTag.className = "tag tag-" + item.when;
+    whenTag.textContent = WHEN_LABELS[item.when] || "Later";
+
+    tags.appendChild(typeTag);
+    tags.appendChild(whenTag);
 
     body.appendChild(text);
-    body.appendChild(tag);
+    body.appendChild(tags);
 
     var removeButton = document.createElement("button");
     removeButton.type = "button";
@@ -223,11 +256,14 @@
     return openPart + " · " + donePart;
   }
 
-  function filterNoun(filter) {
-    if (filter === "errand") return "errands";
-    if (filter === "home") return "home tasks";
-    if (filter === "other") return "other tasks";
-    return "this filter";
+  function filterNoun() {
+    var parts = [];
+    if (typeFilter === "errand") parts.push("errands");
+    else if (typeFilter === "home") parts.push("home tasks");
+    else if (typeFilter === "other") parts.push("other tasks");
+    if (whenFilter === "today") parts.push("today");
+    else if (whenFilter === "later") parts.push("later");
+    return parts.length ? parts.join(" · ") : "this filter";
   }
 
   function showFormError(message) {
@@ -271,6 +307,7 @@
             id: String(item.id || createId()),
             text: item.text,
             type: item.type,
+            when: item.when === "today" ? "today" : "later",
             done: Boolean(item.done),
             createdAt: Number(item.createdAt) || Date.now(),
           };
