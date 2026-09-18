@@ -1,7 +1,7 @@
 (function () {
   "use strict";
 
-  var STORAGE_KEY = "next-stop-items";
+  var STORAGE_KEY = "todos-errands-items";
   var TYPE_LABELS = {
     errand: "Errand",
     home: "Home",

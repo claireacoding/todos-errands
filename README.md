@@ -1,4 +1,4 @@
-# Next Stop
+# To-Dos & Errands
 
 A beginner-friendly to-do and errands list that runs entirely in the browser. Add items, tag them as **Errand**, **Home**, or **Other**, check them off, and delete them. The list is saved in this browser with `localStorage`, so it comes back after a refresh.
 
